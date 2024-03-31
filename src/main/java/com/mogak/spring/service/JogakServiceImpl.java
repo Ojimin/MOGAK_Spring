@@ -344,6 +344,13 @@ public class JogakServiceImpl implements JogakService {
         return JogakConverter.toJogakDailyJogakDto(jogak, dailyJogak);
     }
 
+    @Override
+    public JogakResponseDto.CreateJogakDto getJogakDetail(Long jogakId) {
+        Jogak jogak = jogakRepository.findById(jogakId)
+                .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
+        return JogakConverter.toCreateJogakResponseDto(jogak);
+    }
+
     @Transactional
     @Override
     public void deleteJogak(Long jogakId) {
