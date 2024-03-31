@@ -46,6 +46,19 @@ public class JogakController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponse<>(jogakService.createJogak(createJogakDto)));
     }
 
+    @Operation(summary = "단일 조각 조회", description = "조각 ID를 통해 조각 정보를 조회하는 API",
+            security = @SecurityRequirement(name = "Bearer Authentication"),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "조회 성공"),
+                    @ApiResponse(responseCode = "404", description = "존재하지 않는 유저",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            })
+    @GetMapping("/{jogakId}/detail")
+    public ResponseEntity<BaseResponse<JogakResponseDto.CreateJogakDto>> getJogakDetail(@PathVariable Long jogakId) {
+        return ResponseEntity.ok(new BaseResponse<>(jogakService.getJogakDetail(jogakId)));
+    }
+
+
     @Operation(summary = "일회성 조각 조회", description = "일회성 조각들을 조회하는 API",
             security = @SecurityRequirement(name = "Bearer Authentication"),
             responses = {

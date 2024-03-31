@@ -25,4 +25,6 @@ public interface JogakService {
     List<JogakResponseDto.GetRoutineJogakDto> getRoutineJogaks(LocalDate startDay, LocalDate endDay);
 
     JogakResponseDto.JogakDailyJogakDto failJogak(Long dailyJogakId);
+
+    JogakResponseDto.CreateJogakDto getJogakDetail(Long jogakId);
 }
