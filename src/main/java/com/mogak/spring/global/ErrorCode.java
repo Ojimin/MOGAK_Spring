@@ -42,6 +42,7 @@ public enum ErrorCode {
     CAN_MODIFIED_BEFORE_START_MOGAK(HttpStatus.BAD_REQUEST, "M005", "시작 날짜는 시작하기 전에만 수정 가능합니다"),
     NOT_VALID_START_DATE(HttpStatus.BAD_REQUEST, "M006", "잘못 입력된 시작 날짜입니다"),
     INVERSE_START_END(HttpStatus.BAD_REQUEST, "M007", "시작 날짜와 종료 날짜가 역전 되었습니다"),
+    EXCEED_MAX_MOGAK(HttpStatus.CONFLICT, "J012", "생성 가능한 모각의 최대 갯수는 8개 입니다"),
 
     /**
      * 조각 에러

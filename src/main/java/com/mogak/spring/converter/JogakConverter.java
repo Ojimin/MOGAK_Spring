@@ -82,6 +82,35 @@ public class JogakConverter {
                 .build();
     }
 
+    public static JogakResponseDto.DetailJogakDto toGetJogakDetailResponseDto(Jogak jogak, String color) {
+        return JogakResponseDto.DetailJogakDto.builder()
+                .jogakId(jogak.getId())
+                .mogakTitle(jogak.getMogak().getTitle())
+                .category(jogak.getCategory().getName())
+                .title(jogak.getTitle())
+                .isRoutine(jogak.getIsRoutine())
+                .achievements(jogak.getAchievements())
+                .color(color)
+                .startDate(jogak.getStartAt())
+                .endDate(jogak.getEndAt())
+                .build();
+    }
+
+    public static JogakResponseDto.DetailJogakDto toGetJogakDetailResponseDto(Jogak jogak, String color, List<String> days) {
+        return JogakResponseDto.DetailJogakDto.builder()
+                .jogakId(jogak.getId())
+                .mogakTitle(jogak.getMogak().getTitle())
+                .category(jogak.getCategory().getName())
+                .title(jogak.getTitle())
+                .isRoutine(jogak.getIsRoutine())
+                .days(days)
+                .achievements(jogak.getAchievements())
+                .color(color)
+                .startDate(jogak.getStartAt())
+                .endDate(jogak.getEndAt())
+                .build();
+    }
+
     public static JogakResponseDto.GetOneTimeJogakDto toGetOneTimeJogakResponseDto(Jogak jogak, Boolean bool) {
         return JogakResponseDto.GetOneTimeJogakDto.builder()
                 .jogakId(jogak.getId())

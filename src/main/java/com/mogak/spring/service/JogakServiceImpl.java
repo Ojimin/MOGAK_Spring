@@ -345,10 +345,19 @@ public class JogakServiceImpl implements JogakService {
     }
 
     @Override
-    public JogakResponseDto.CreateJogakDto getJogakDetail(Long jogakId) {
+    public JogakResponseDto.DetailJogakDto getJogakDetail(Long jogakId) {
         Jogak jogak = jogakRepository.findById(jogakId)
                 .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
-        return JogakConverter.toCreateJogakResponseDto(jogak);
+        Mogak mogak = mogakRepository.findByJogak(jogak)
+                .orElseThrow(() -> new BaseException(ErrorCode.NOT_EXIST_MOGAK));
+
+        if (jogak.getIsRoutine()) {
+            List<String> periods = periodRepository.findPeriodsByJogak(jogak).stream()
+                    .map(Period::getDays)
+                    .collect(Collectors.toList());
+            return JogakConverter.toGetJogakDetailResponseDto(jogak, mogak.getColor(), periods);
+        }
+        return JogakConverter.toGetJogakDetailResponseDto(jogak, mogak.getColor());
     }
 
     @Transactional

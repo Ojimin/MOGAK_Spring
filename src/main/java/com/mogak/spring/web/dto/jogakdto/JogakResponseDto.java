@@ -28,6 +28,23 @@ public class JogakResponseDto {
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class DetailJogakDto {
+        private Long jogakId;
+        private String mogakTitle;
+        private String category;
+        private String title;
+        private Boolean isRoutine;
+        private List<String> days;
+        private String color;
+        private Integer achievements;
+        private LocalDate startDate;
+        private LocalDate endDate;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetJogakDto {
         private Long jogakId;
         private String mogakTitle;

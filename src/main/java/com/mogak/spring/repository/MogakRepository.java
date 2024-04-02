@@ -1,12 +1,14 @@
 package com.mogak.spring.repository;
 
+import com.mogak.spring.domain.jogak.Jogak;
 import com.mogak.spring.domain.mogak.Mogak;
 import com.mogak.spring.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface MogakRepository extends JpaRepository<Mogak, Long> {
     @Query
@@ -18,4 +20,7 @@ public interface MogakRepository extends JpaRepository<Mogak, Long> {
     List<Mogak> findAllByUser(User user);
 
     void deleteByUserId(Long userId);
+
+    @Query("SELECT m FROM Mogak m JOIN FETCH m.jogaks j WHERE j = :jogak")
+    Optional<Mogak> findByJogak(@Param("jogak") Jogak jogak);
 }

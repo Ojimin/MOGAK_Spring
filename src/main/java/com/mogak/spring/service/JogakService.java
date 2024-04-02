@@ -26,5 +26,5 @@ public interface JogakService {
 
     JogakResponseDto.JogakDailyJogakDto failJogak(Long dailyJogakId);
 
-    JogakResponseDto.CreateJogakDto getJogakDetail(Long jogakId);
+    JogakResponseDto.DetailJogakDto getJogakDetail(Long jogakId);
 }

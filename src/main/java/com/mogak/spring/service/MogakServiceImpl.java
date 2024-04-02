@@ -52,10 +52,19 @@ public class MogakServiceImpl implements MogakService {
                 .orElseThrow(() -> new UserException(ErrorCode.NOT_EXIST_USER));
         Modarat modarat = modaratRepository.findById(request.getModaratId())
                 .orElseThrow(() -> new BaseException(ErrorCode.NOT_EXIST_MODARAT));
+        if (!validateMogakNum(modarat)) {
+            throw new BaseException(ErrorCode.EXCEED_MAX_MOGAK);
+        }
         MogakCategory category = categoryRepository.findMogakCategoryByName(request.getBigCategory())
                 .orElseThrow(() -> new MogakException(ErrorCode.NOT_EXIST_CATEGORY));
         Mogak result = mogakRepository.save(MogakConverter.toMogak(request, modarat, category, request.getSmallCategory(), user));
         return MogakConverter.toGetMogakDto(result);
+    }
+
+    // 모다라트의 모각 개수 검증
+    private boolean validateMogakNum(Modarat modarat) {
+        // 현재 유효한 기간 및 종료 날짜가 없는 조각 개수 체크
+        return mogakRepository.findAllByModaratId(modarat.getId()).size() < 8;
     }
 
 //    private void createTodayJogak(Mogak result, List<Period> periods, int dayNum) {
