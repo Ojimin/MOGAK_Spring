@@ -54,7 +54,7 @@ public class JogakController {
                             content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             })
     @GetMapping("/{jogakId}/detail")
-    public ResponseEntity<BaseResponse<JogakResponseDto.CreateJogakDto>> getJogakDetail(@PathVariable Long jogakId) {
+    public ResponseEntity<BaseResponse<JogakResponseDto.DetailJogakDto>> getJogakDetail(@PathVariable Long jogakId) {
         return ResponseEntity.ok(new BaseResponse<>(jogakService.getJogakDetail(jogakId)));
     }
 
