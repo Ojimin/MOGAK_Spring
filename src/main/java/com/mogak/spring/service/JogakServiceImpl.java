@@ -348,6 +348,12 @@ public class JogakServiceImpl implements JogakService {
     public JogakResponseDto.CreateJogakDto getJogakDetail(Long jogakId) {
         Jogak jogak = jogakRepository.findById(jogakId)
                 .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
+        if (jogak.getIsRoutine()) {
+            List<String> periods = periodRepository.findPeriodsByJogak(jogak).stream()
+                    .map(Period::getDays)
+                    .collect(Collectors.toList());
+            return JogakConverter.toCreateJogakResponseDto(jogak, periods);
+        }
         return JogakConverter.toCreateJogakResponseDto(jogak);
     }
 

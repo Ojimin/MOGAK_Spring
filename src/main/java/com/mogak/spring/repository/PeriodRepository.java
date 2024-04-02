@@ -1,5 +1,6 @@
 package com.mogak.spring.repository;
 
+import com.mogak.spring.domain.jogak.Jogak;
 import com.mogak.spring.domain.jogak.Period;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,6 @@ public interface PeriodRepository extends JpaRepository<Period, Integer> {
     @Query("SELECT p " +
             "FROM Period p " +
             "JOIN FETCH p.jogakPeriods jp " +
-            "WHERE jp = :jogak ")
-    List<Period> findPeriodsByJogak_Id(@Param(value = "jogak") Long jogakId);
+            "WHERE jp.jogak = :jogak ")
+    List<Period> findPeriodsByJogak(@Param(value = "jogak") Jogak jogak);
 }
