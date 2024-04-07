@@ -40,6 +40,12 @@ public class DailyJogak extends BaseEntity {
         this.isAchievement = state;
     }
 
+    public void updateJogak(Jogak jogak) {
+        this.jogak = jogak;
+        this.title = jogak.getTitle();
+        this.isRoutine = jogak.getIsRoutine();
+    }
+
     public static JogakResponseDto.GetRoutineJogakDto getRoutineJogakDto(DailyJogak dailyJogak) {
         return JogakResponseDto.GetRoutineJogakDto.builder()
                 .dailyJogakId(dailyJogak.getId())
