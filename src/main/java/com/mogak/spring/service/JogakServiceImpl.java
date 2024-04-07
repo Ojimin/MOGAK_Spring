@@ -322,11 +322,10 @@ public class JogakServiceImpl implements JogakService {
         if (dailyjogak.getIsAchievement()) {
             throw new BaseException(ErrorCode.ALREADY_END_JOGAK);
         }
-        dailyjogak.updateAchievement(true);
-        Jogak jogak = jogakRepository.findById(dailyjogak.getJogakId())
-                .orElseThrow(() -> new BaseException(ErrorCode.NOT_EXIST_JOGAK));
-        jogak.increaseAchievements();
-        return JogakConverter.toJogakDailyJogakDto(jogak, dailyjogak);
+
+        updateAchievement(true, dailyjogak);
+
+        return JogakConverter.toJogakDailyJogakDto(dailyjogak.getJogak(), dailyjogak);
     }
 
     @Transactional
@@ -337,11 +336,24 @@ public class JogakServiceImpl implements JogakService {
         if (!dailyJogak.getIsAchievement()) {
             throw new BaseException(ErrorCode.NOT_SUCCESS_DAILY_JOGAK);
         }
-        dailyJogak.updateAchievement(false);
-        Jogak jogak = jogakRepository.findById(dailyJogak.getJogakId())
-                .orElseThrow(() -> new BaseException(ErrorCode.NOT_EXIST_JOGAK));
+
+        updateAchievement(false, dailyJogak);
+        
+        return JogakConverter.toJogakDailyJogakDto(dailyJogak.getJogak(), dailyJogak);
+    }
+
+    private void updateAchievement(boolean achievement, DailyJogak dailyJogak) {
+        Jogak jogak = dailyJogak.getJogak();
+        dailyJogak.updateAchievement(achievement);
+
+        // 조각 성공
+        if (achievement) {
+            jogak.increaseAchievements();
+            return;
+        }
+
+        // 조각 실패
         jogak.decreaseAchievements();
-        return JogakConverter.toJogakDailyJogakDto(jogak, dailyJogak);
     }
 
     @Override
