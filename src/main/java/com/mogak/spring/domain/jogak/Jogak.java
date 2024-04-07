@@ -36,6 +36,8 @@ public class Jogak extends BaseEntity {
     private String title;
     @OneToMany(mappedBy = "jogak")
     private List<JogakPeriod> jogakPeriods = new ArrayList<>();
+    @OneToMany(mappedBy = "jogak")
+    private List<DailyJogak> dailyJogaks = new ArrayList<>();
     @Column(nullable = false)
     private Boolean isRoutine;
     @Column(name = "achievement")
