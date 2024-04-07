@@ -144,12 +144,24 @@ public class JogakServiceImpl implements JogakService {
                 .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
         validatePeriod(Optional.ofNullable(updateJogakDto.getIsRoutine()), Optional.ofNullable(updateJogakDto.getDays()));
         jogak.update(updateJogakDto.getTitle(), updateJogakDto.getIsRoutine(), updateJogakDto.getEndDate());
+
+        List<DailyJogak> dailyJogaks = dailyJogakRepository.findAllByJogak(jogak);
+        if (!dailyJogaks.isEmpty()) {
+            dailyJogaks
+                    .forEach(dailyJogak ->
+                            dailyJogak.getJogak().update(
+                                    updateJogakDto.getTitle(),
+                                    updateJogakDto.getIsRoutine(),
+                                    updateJogakDto.getEndDate()));
+        }
+
         if (updateJogakDto.getDays() != null) {
             updateJogakPeriod(jogak, updateJogakDto.getDays());
         }
         if (updateJogakDto.getIsRoutine() != null && !updateJogakDto.getIsRoutine()) {
             jogakPeriodRepository.deleteAllByJogakId(jogakId);
         }
+
         return JogakConverter.toCreateJogakResponseDto(jogak);
     }
 
@@ -220,6 +232,7 @@ public class JogakServiceImpl implements JogakService {
             List<Jogak> userRoutineJogaks = jogakRepository.findDailyRoutineJogaks(user, dateToNum(day));
             return JogakConverter.toGetDailyJogakListResponseDto(
                     userRoutineJogaks.stream()
+                            // 여기서 npe 발생
                             .filter(jogak -> jogak.getEndAt().isAfter(day))
                             .map(JogakConverter::toDailyJogakResponseDto)
                             .collect(Collectors.toList()));
