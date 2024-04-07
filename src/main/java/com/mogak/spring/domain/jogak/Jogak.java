@@ -59,12 +59,7 @@ public class Jogak extends BaseEntity {
     public void update(String title, Boolean isRoutine, LocalDate endAt) {
         Optional.ofNullable(title).ifPresent(updateTitle -> this.title = updateTitle);
         Optional.ofNullable(isRoutine).ifPresent(routine -> this.isRoutine = routine);
-        Optional.ofNullable(endAt).ifPresent(endDate -> {
-            this.endAt = endDate;
-            if (endAt.getYear() == 9999) {
-                this.endAt = null;
-            }
-        });
+        Optional.ofNullable(endAt).ifPresent(endDate -> this.endAt = endDate);
     }
 
     public void updateCategory(MogakCategory category) {
