@@ -320,7 +320,11 @@ public class JogakServiceImpl implements JogakService {
     public JogakResponseDto.JogakDailyJogakDto startJogak(Long jogakId) {
         Jogak jogak = jogakRepository.findById(jogakId)
                 .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
-        if (jogak.getIsRoutine() || dailyJogakRepository.findByCreatedAtBetweenAndId(LocalDate.now().atStartOfDay(), LocalDate.now().atStartOfDay().plusDays(1), jogakId).isPresent()) {
+        if (jogak.getIsRoutine() ||
+                dailyJogakRepository.findByCreatedAtBetweenAndId(
+                        LocalDate.now().atStartOfDay(),
+                        LocalDate.now().atStartOfDay().plusDays(1),
+                        jogak).isPresent()) {
             throw new JogakException(ErrorCode.ALREADY_START_JOGAK);
         }
         DailyJogak dailyJogak = dailyJogakRepository.save(JogakConverter.toInitialDailyJogak(jogak));
@@ -391,7 +395,7 @@ public class JogakServiceImpl implements JogakService {
         Jogak jogak = jogakRepository.findById(jogakId)
                 .orElseThrow(() -> new JogakException(ErrorCode.NOT_EXIST_JOGAK));
         jogakPeriodRepository.deleteAllByJogakId(jogakId);
-        dailyJogakRepository.deleteAllByJogakId(jogakId);
+        dailyJogakRepository.deleteAllByJogak(jogak);
         jogakRepository.deleteById(jogakId);
     }
 

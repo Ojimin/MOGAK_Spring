@@ -165,7 +165,7 @@ public class AuthService {
         Optional<List<Jogak>> optJogaks = jogakRepository.findAllByUserId(deleteUser.getId());
         if (optJogaks.isPresent()) {
             for (Jogak jogak : optJogaks.get()) {
-                dailyJogakRepository.deleteAllByJogakId(jogak.getId());
+                dailyJogakRepository.deleteAllByJogak(jogak);
                 jogakPeriodRepository.deleteAllByJogakId(jogak.getId());
             }
         }
