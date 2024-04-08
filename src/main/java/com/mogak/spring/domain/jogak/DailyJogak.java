@@ -23,8 +23,9 @@ public class DailyJogak extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mogak_id")
     private Mogak mogak;
-    @Column(nullable = false, name = "jogak_id")
-    private Long jogakId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "jogak_id")
+    private Jogak jogak;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mogak_category")
     private MogakCategory category;
@@ -37,6 +38,12 @@ public class DailyJogak extends BaseEntity {
 
     public void updateAchievement(boolean state) {
         this.isAchievement = state;
+    }
+
+    public void updateJogak(Jogak jogak) {
+        this.jogak = jogak;
+        this.title = jogak.getTitle();
+        this.isRoutine = jogak.getIsRoutine();
     }
 
     public static JogakResponseDto.GetRoutineJogakDto getRoutineJogakDto(DailyJogak dailyJogak) {

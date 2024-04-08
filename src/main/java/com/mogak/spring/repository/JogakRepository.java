@@ -1,5 +1,6 @@
 package com.mogak.spring.repository;
 
+import com.mogak.spring.domain.jogak.DailyJogak;
 import com.mogak.spring.domain.jogak.Jogak;
 import com.mogak.spring.domain.mogak.Mogak;
 import com.mogak.spring.domain.user.User;
@@ -33,4 +34,9 @@ public interface JogakRepository extends JpaRepository<Jogak, Long> {
     Optional<List<Jogak>> findAllByUserId(Long userId);
 
     void deleteByUserId(Long userId);
+
+    @Query("SELECT j FROM Jogak j " +
+            "JOIN FETCH j.dailyJogaks dj " +
+            "WHERE dj = :dailyJogak")
+    Optional<Jogak> findByDailyJogak(@Param("dailyJogak") DailyJogak dailyJogak);
 }

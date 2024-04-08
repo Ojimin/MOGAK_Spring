@@ -7,6 +7,7 @@ import com.mogak.spring.web.dto.jogakdto.JogakResponseDto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class JogakConverter {
@@ -36,7 +37,7 @@ public class JogakConverter {
         return DailyJogak.builder()
                 .id(-1L)
                 .mogak(jogak.getMogak())
-                .jogakId(jogak.getId())
+                .jogak(jogak)
                 .title(jogak.getTitle())
                 .category(jogak.getCategory())
                 .isRoutine(jogak.getIsRoutine())
@@ -50,7 +51,7 @@ public class JogakConverter {
                 .category(jogak.getCategory())
                 .title(jogak.getTitle())
                 .isAchievement(false)
-                .jogakId(jogak.getId())
+                .jogak(jogak)
                 .isRoutine(jogak.getIsRoutine())
                 .build();
     }
@@ -155,7 +156,7 @@ public class JogakConverter {
 
     public static JogakResponseDto.GetDailyJogakDto toGetDailyJogakResponseDto(DailyJogak dailyJogak) {
         return JogakResponseDto.GetDailyJogakDto.builder()
-                .jogakId(dailyJogak.getJogakId())
+                .jogakId(dailyJogak.getJogak().getId())
                 .dailyJogakId(dailyJogak.getId())
                 .mogakTitle(dailyJogak.getMogak().getTitle())
                 .category(dailyJogak.getCategory().getName())
@@ -187,7 +188,7 @@ public class JogakConverter {
 
     private static Boolean findCorrespondingDailyJogak(Jogak jogak, List<DailyJogak> dailyJogaks) {
         return dailyJogaks.stream()
-                .anyMatch(dailyJogak -> dailyJogak.getJogakId() == jogak.getId());
+                .anyMatch(dailyJogak -> Objects.equals(dailyJogak.getJogak(), jogak));
     }
 
     public static JogakResponseDto.GetDailyJogakListDto toGetDailyJogakListResponseDto(List<DailyJogak> dailyJogaks) {
@@ -212,8 +213,8 @@ public class JogakConverter {
                 .jogakId(jogak.getId())
                 .dailyJogakId(dailyJogak.getId())
                 .title(dailyJogak.getTitle())
-                .mogakTitle(jogak.getTitle())
-                .category(jogak.getTitle())
+                .mogakTitle(jogak.getMogak().getTitle())
+                .category(jogak.getCategory().getName())
                 .isRoutine(jogak.getIsRoutine())
                 .isAchievement(dailyJogak.getIsAchievement())
                 .achievements(jogak.getAchievements())

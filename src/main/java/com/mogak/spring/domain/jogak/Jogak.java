@@ -36,6 +36,8 @@ public class Jogak extends BaseEntity {
     private String title;
     @OneToMany(mappedBy = "jogak")
     private List<JogakPeriod> jogakPeriods = new ArrayList<>();
+    @OneToMany(mappedBy = "jogak")
+    private List<DailyJogak> dailyJogaks = new ArrayList<>();
     @Column(nullable = false)
     private Boolean isRoutine;
     @Column(name = "achievement")
@@ -57,12 +59,7 @@ public class Jogak extends BaseEntity {
     public void update(String title, Boolean isRoutine, LocalDate endAt) {
         Optional.ofNullable(title).ifPresent(updateTitle -> this.title = updateTitle);
         Optional.ofNullable(isRoutine).ifPresent(routine -> this.isRoutine = routine);
-        Optional.ofNullable(endAt).ifPresent(endDate -> {
-            this.endAt = endDate;
-            if (endAt.getYear() == 9999) {
-                this.endAt = null;
-            }
-        });
+        Optional.ofNullable(endAt).ifPresent(endDate -> this.endAt = endDate);
     }
 
     public void updateCategory(MogakCategory category) {

@@ -1,6 +1,7 @@
 package com.mogak.spring.repository;
 
 import com.mogak.spring.domain.jogak.DailyJogak;
+import com.mogak.spring.domain.jogak.Jogak;
 import com.mogak.spring.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,10 +15,10 @@ public interface DailyJogakRepository extends JpaRepository<DailyJogak, Long> {
     @Query("SELECT j FROM DailyJogak j WHERE j.createdAt BETWEEN :startDate AND :endDate")
     List<DailyJogak> findByDateRange(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT j FROM DailyJogak j WHERE j.createdAt BETWEEN :startDateTime AND :endDateTime AND j.jogakId = :id")
+    @Query("SELECT j FROM DailyJogak j WHERE j.createdAt BETWEEN :startDateTime AND :endDateTime AND j.jogak = :jogak")
     Optional<DailyJogak> findByCreatedAtBetweenAndId(@Param("startDateTime") LocalDateTime startDateTime,
                                                      @Param("endDateTime") LocalDateTime endDateTime,
-                                                     @Param("id") Long jogakId
+                                                     @Param("jogak") Jogak jogak
     );
 
     @Query("SELECT j from DailyJogak j " +
@@ -27,5 +28,7 @@ public interface DailyJogakRepository extends JpaRepository<DailyJogak, Long> {
                                      @Param(value = "today") LocalDateTime today,
                                      @Param(value = "tomorrow") LocalDateTime tomorrow);
 
-    void deleteAllByJogakId(Long jogakId);
+    void deleteAllByJogak(Jogak jogak);
+
+    List<DailyJogak> findAllByJogak(Jogak jogak);
 }
